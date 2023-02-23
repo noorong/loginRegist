@@ -7,6 +7,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import LoginForm from "./LoginForm";
 
 export default function UserLogin() {
   return (
@@ -35,6 +36,7 @@ function LoginPage() {
   return (
     <div>
       <h2>Login Page</h2>
+      <LoginForm />
       <div>
         <Link to="/">Back to home</Link>
       </div>
