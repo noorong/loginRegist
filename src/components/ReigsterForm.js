@@ -5,7 +5,7 @@ export default function Register({ onSubmit }) {
   const passwordRef = useRef();
 
   const submitForm = (e) => {
-    e.prevenDefault();
+    e.preventDefault();
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;

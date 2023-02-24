@@ -45,7 +45,7 @@ function LoginPage() {
       (user) => user.email === email && user.password === password
     );
 
-    if (foundUser) {
+    if (!foundUser) {
       navigate(`/detail?email=${email}&password=${password}`);
     }
   };
