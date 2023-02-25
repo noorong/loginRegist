@@ -26,6 +26,7 @@ export default function UserLogin() {
 }
 
 function HomePage() {
+  console.log(users);
   return (
     <div>
       <h2>Home Page</h2>
@@ -44,10 +45,9 @@ function LoginPage() {
     const foundUser = users.find(
       (user) => user.email === email && user.password === password
     );
-
-    if (!foundUser) {
-      navigate(`/detail?email=${email}&password=${password}`);
-    }
+    console.log(foundUser);
+    if (!foundUser) return;
+    else navigate(`/detail?email=${email}&password=${password}`);
   };
   return (
     <div>
