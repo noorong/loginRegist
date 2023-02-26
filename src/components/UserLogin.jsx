@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./ReigsterForm";
+import PrivateRoute from "./PrivateRouting";
 import { db } from "../service/userData";
 import { loginUser } from "../service/auth";
 
@@ -18,7 +19,14 @@ export default function UserLogin() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/detail" element={<UserDetail />} />
+        <Route
+          path="/detail"
+          element={
+            <PrivateRoute>
+              <UserDetail />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
@@ -27,6 +35,7 @@ export default function UserLogin() {
 }
 
 function HomePage() {
+  console.log(db);
   return (
     <div>
       <h2>Home Page</h2>
@@ -48,7 +57,6 @@ function LoginPage() {
     const locationObject = {
       state: { user: foundUser },
     };
-    console.log(locationObject);
 
     navigate("/detail", locationObject);
   };
@@ -101,14 +109,14 @@ function RegisterPage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  console.log(db);
   const handleSubmit = (formData) => {
-    console.log("유저를 등록하세요.");
     const { email } = formData;
-    const foundUser = db.find((user) => user.email === email);
+    const foundUser = db.users.find((user) => user.email === email);
 
     if (foundUser) return setError("이미 등록된 이메일 입니다.");
 
-    db.push(formData);
+    db.users.push(formData);
     navigate("/login");
   };
 
