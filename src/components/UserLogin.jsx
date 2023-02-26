@@ -10,6 +10,7 @@ import {
 import LoginForm from "./LoginForm";
 import RegisterForm from "./ReigsterForm";
 import { db } from "../service/userData";
+import { loginUser } from "../service/auth";
 
 export default function UserLogin() {
   return (
@@ -40,13 +41,15 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const hadleSubmit = (formData) => {
-    const { email, password } = formData;
-    const foundUser = db.find(
-      (user) => user.email === email && user.password === password
-    );
-    // console.log(foundUser);
+    const foundUser = loginUser(formData);
+
     if (!foundUser) return;
-    else navigate(`/detail?email=${email}&password=${password}`);
+
+    const locationObject = {
+      state: { user: foundUser },
+    };
+
+    navigate("/detail", locationObject);
   };
   return (
     <div>
