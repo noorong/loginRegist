@@ -9,8 +9,7 @@ import {
 } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./ReigsterForm";
-
-const users = [];
+import { db } from "../service/userData";
 
 export default function UserLogin() {
   return (
@@ -26,7 +25,7 @@ export default function UserLogin() {
 }
 
 function HomePage() {
-  console.log(users);
+  console.log(db);
   return (
     <div>
       <h2>Home Page</h2>
@@ -42,7 +41,7 @@ function LoginPage() {
 
   const hadleSubmit = (formData) => {
     const { email, password } = formData;
-    const foundUser = users.find(
+    const foundUser = db.find(
       (user) => user.email === email && user.password === password
     );
     // console.log(foundUser);
@@ -98,11 +97,11 @@ function RegisterPage() {
   const handleSubmit = (formData) => {
     console.log("유저를 등록하세요.");
     const { email } = formData;
-    const foundUser = users.find((user) => user.email === email);
+    const foundUser = db.find((user) => user.email === email);
 
     if (foundUser) return setError("이미 등록된 이메일 입니다.");
 
-    users.push(formData);
+    db.push(formData);
     navigate("/login");
   };
 
