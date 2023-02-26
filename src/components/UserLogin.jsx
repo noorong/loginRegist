@@ -45,7 +45,7 @@ function LoginPage() {
     const foundUser = users.find(
       (user) => user.email === email && user.password === password
     );
-    console.log(foundUser);
+    // console.log(foundUser);
     if (!foundUser) return;
     else navigate(`/detail?email=${email}&password=${password}`);
   };
