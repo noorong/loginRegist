@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -6,6 +6,7 @@ import {
   Link,
   useLocation,
   useNavigate,
+  redirect,
 } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./ReigsterForm";
@@ -26,7 +27,6 @@ export default function UserLogin() {
 }
 
 function HomePage() {
-  console.log(db);
   return (
     <div>
       <h2>Home Page</h2>
@@ -48,6 +48,7 @@ function LoginPage() {
     const locationObject = {
       state: { user: foundUser },
     };
+    console.log(locationObject);
 
     navigate("/detail", locationObject);
   };
@@ -70,28 +71,31 @@ function LoginPage() {
 }
 
 function UserDetail() {
-  const navigate = useNavigate();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const user = location.state.user;
 
-  const email = searchParams.get("email");
-  const password = searchParams.get("password");
+  if (!user) return redirect("/login");
+  const email = user.email;
 
-  if (!email || !password) navigate("/login");
+  redirect("/detail");
 
   return (
     <div>
       <h2>UserDetail Page</h2>
-      <p>
+      <div>
         <h3>User details</h3>
         <em>{email}</em>
-        <br />
-        <strong>{password}</strong>
-      </p>
+      </div>
       <Link to="/login">Login</Link>
     </div>
   );
 }
+
+// location state를 지우는 헬퍼 함수입니다.
+// function useEmptyLocationState() {
+//   const location = useLocation();
+//   location.state.user = "";
+// }
 
 function RegisterPage() {
   const [error, setError] = useState("");
