@@ -7,6 +7,7 @@ import {
   useLocation,
   useNavigate,
   redirect,
+  Navigate,
 } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./ReigsterForm";
@@ -46,8 +47,21 @@ export default function UserLogin() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/404" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <PageLayout
+      heading={"Not Found"}
+      links={[{ to: "/login", text: "Go Back" }]}
+    >
+      <div>"아무고토 없습니다."</div>
+    </PageLayout>
   );
 }
 
