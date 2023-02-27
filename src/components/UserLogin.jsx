@@ -14,6 +14,23 @@ import PrivateRoute from "./PrivateRouting";
 import { db } from "../service/userData";
 import { loginUser, registerUser } from "../service/auth";
 
+function PageLayout({ heading, links, children }) {
+  return (
+    <div>
+      <h2>{heading}</h2>
+      <nav>
+        {links.map(({ to, text }) => (
+          <li>
+            <Link to={to}>{text}</Link>
+          </li>
+        ))}
+      </nav>
+
+      <main>{children}</main>
+    </div>
+  );
+}
+
 export default function UserLogin() {
   return (
     <BrowserRouter>
@@ -61,20 +78,15 @@ function LoginPage() {
     navigate("/detail", locationObject);
   };
   return (
-    <div>
-      <h2>Login Page</h2>
+    <PageLayout
+      heading="login"
+      links={[
+        { to: "/register", text: "Register" },
+        { to: "/", text: "Home" },
+      ]}
+    >
       <LoginForm onSubmit={hadleSubmit} />
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Back to home</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-        </ul>
-      </div>
-    </div>
+    </PageLayout>
   );
 }
 
@@ -88,14 +100,14 @@ function UserDetail() {
   redirect("/detail");
 
   return (
-    <div>
-      <h2>UserDetail Page</h2>
+    <PageLayout
+      heading="User Detail"
+      links={[{ to: "/login", text: "Logout" }]}
+    >
       <div>
-        <h3>User details</h3>
-        <em>{email}</em>
+        <em>email : {email}</em>
       </div>
-      <Link to="/login">Login</Link>
-    </div>
+    </PageLayout>
   );
 }
 
@@ -113,11 +125,14 @@ function RegisterPage() {
   };
 
   return (
-    <div>
-      <h2>Register Page</h2>
+    <PageLayout
+      heading="Register"
+      links={[
+        { to: "/login", text: "login" },
+        { to: "/", text: "Home" },
+      ]}
+    >
       <RegisterForm onSubmit={handleSubmit} />
-
-      <Link to="/login">Login</Link>
-    </div>
+    </PageLayout>
   );
 }
