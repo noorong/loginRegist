@@ -12,7 +12,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./ReigsterForm";
 import PrivateRoute from "./PrivateRouting";
 import { db } from "../service/userData";
-import { loginUser } from "../service/auth";
+import { loginUser, registerUser } from "../service/auth";
 
 export default function UserLogin() {
   return (
@@ -35,7 +35,6 @@ export default function UserLogin() {
 }
 
 function HomePage() {
-  console.log(db);
   return (
     <div>
       <h2>Home Page</h2>
@@ -47,6 +46,7 @@ function HomePage() {
 }
 
 function LoginPage() {
+  console.log(db);
   const navigate = useNavigate();
 
   const hadleSubmit = (formData) => {
@@ -106,17 +106,9 @@ function UserDetail() {
 // }
 
 function RegisterPage() {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  console.log(db);
   const handleSubmit = (formData) => {
-    const { email } = formData;
-    const foundUser = db.users.find((user) => user.email === email);
-
-    if (foundUser) return setError("이미 등록된 이메일 입니다.");
-
-    db.users.push(formData);
+    registerUser(formData);
     navigate("/login");
   };
 
@@ -124,18 +116,8 @@ function RegisterPage() {
     <div>
       <h2>Register Page</h2>
       <RegisterForm onSubmit={handleSubmit} />
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Back to home</Link>
-          </li>
 
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-        </ul>
-      </div>
-      <div>{error}</div>
+      <Link to="/login">Login</Link>
     </div>
   );
 }

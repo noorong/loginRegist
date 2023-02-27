@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export default function Register({ onSubmit }) {
+export default function RegisterForm({ onSubmit }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -15,7 +15,7 @@ export default function Register({ onSubmit }) {
       password,
     };
 
-    onSubmit({ formData });
+    onSubmit(formData);
   };
 
   return (
